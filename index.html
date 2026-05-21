@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Type of Clown Are You?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1A1410;
+    --gold: #C9A84C;
+    --gold-light: #E8D08A;
+    --red: #8B2E2E;
+    --deep: #2C1810;
+    --muted: #6B5E52;
+    --card-bg: #FDFAF4;
+    --border: #D4C5A9;
+    --purple: #4A3B6B;
+    --teal: #1D6B5C;
+    --coral: #8B3A2E;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(139,46,46,0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* INTRO */
+  .intro {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+
+  .intro-emblem {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(201,168,76,0.3));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .intro h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--deep);
+    margin-bottom: 0.75rem;
+  }
+
+  .intro h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .intro-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem auto;
+    max-width: 400px;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-gem { color: var(--gold); font-size: 0.9rem; }
+
+  .intro-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+
+  .meta-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .btn-start {
+    display: inline-block;
+    background: var(--deep);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 600;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(26,20,16,0.25);
+  }
+
+  .btn-start::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(201,168,76,0.15) 100%);
+  }
+
+  .btn-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(26,20,16,0.3);
+  }
+
+  /* QUIZ */
+  .quiz { display: none; }
+
+  .progress-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.6rem;
+  }
+
+  .progress-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .progress-count {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--red));
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .question-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 20px rgba(26,20,16,0.06), 0 0 0 1px rgba(201,168,76,0.1);
+    animation: slideIn 0.35s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .q-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--deep);
+    margin-bottom: 2rem;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .option {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.6;
+    transition: all 0.18s ease;
+    position: relative;
+  }
+
+  .option:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+    transform: translateX(3px);
+  }
+
+  .option.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    color: var(--deep);
+    font-weight: 500;
+  }
+
+  .option.selected::before {
+    content: '◆';
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 0.7rem;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn-nav {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.6rem 1.4rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .btn-nav:hover:not(:disabled) {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .btn-nav:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .btn-next {
+    background: var(--deep);
+    border: none;
+    color: var(--gold-light);
+    padding: 0.6rem 1.8rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    transition: all 0.15s;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .btn-next.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-next.active:hover {
+    background: var(--ink);
+    transform: translateY(-1px);
+  }
+
+  /* RESULTS */
+  .results { display: none; }
+
+  .results-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .results-header .eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .results-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .results-header h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .results-header .blend-note {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem 2.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 16px rgba(26,20,16,0.05);
+    animation: slideIn 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+  }
+
+  .result-card.rank-1::before { background: var(--gold); }
+  .result-card.rank-2::before { background: var(--teal); }
+  .result-card.rank-3::before { background: var(--coral); }
+  .result-card.rank-1 { animation-delay: 0.1s; }
+  .result-card.rank-2 { animation-delay: 0.2s; }
+  .result-card.rank-3 { animation-delay: 0.3s; }
+
+  .result-rank {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .rank-1 .result-rank { color: var(--gold); }
+  .rank-2 .result-rank { color: var(--teal); }
+  .rank-3 .result-rank { color: var(--coral); }
+
+  .result-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 0.2rem;
+  }
+
+  .result-era {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 1.1rem;
+  }
+
+  .result-desc {
+    font-size: 0.97rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .score-track {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1) 0.5s;
+    width: 0%;
+  }
+
+  .rank-1 .score-fill { background: var(--gold); }
+  .rank-2 .score-fill { background: var(--teal); }
+  .rank-3 .score-fill { background: var(--coral); }
+
+  .score-pct {
+    font-size: 0.78rem;
+    color: var(--muted);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  .results-footer {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-retake {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.75rem 2rem;
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-retake:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .radar-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem 2.25rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.4s ease 0.45s both;
+  }
+
+  .radar-eyebrow {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .radar-wrap { display: flex; justify-content: center; }
+
+  .radar-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 0.45rem 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.76rem;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--border);
+  }
+
+  .legend-item.top1 { color: var(--deep); font-weight: 500; }
+  .legend-item.top1 .legend-dot { background: var(--gold); }
+  .legend-item.top2 { color: var(--deep); font-weight: 500; }
+  .legend-item.top2 .legend-dot { background: var(--teal); }
+  .legend-item.top3 { color: var(--deep); font-weight: 500; }
+  .legend-item.top3 .legend-dot { background: var(--coral); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="intro" id="intro">
+    <span class="intro-emblem">🎭</span>
+    <h1>What Type of<br><em>Clown</em> Are You?</h1>
+    <p class="intro-sub">From ancient Egyptian dwarf performers to the modern hospital clown, seventeen distinct archetypes have carried humanity's laughter, grief, and truth through history. Which one are you?</p>
+    <div class="divider"><div class="divider-line"></div><span class="divider-gem">◆</span><div class="divider-line"></div></div>
+    <div class="intro-meta">
+      <div class="meta-item"><span class="meta-num">28</span><span class="meta-label">Questions</span></div>
+      <div class="meta-item"><span class="meta-num">17</span><span class="meta-label">Archetypes</span></div>
+      <div class="meta-item"><span class="meta-num">3</span><span class="meta-label">Results</span></div>
+    </div>
+    <button class="btn-start" onclick="start()">Enter the Ring</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz" id="quiz">
+    <div class="progress-section">
+      <div class="progress-top">
+        <span class="progress-text" id="progress-text">Opening act</span>
+        <span class="progress-count" id="progress-count">1 / 28</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card" id="question-card">
+      <div class="q-label" id="q-label">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="nav">
+      <button class="btn-nav" id="btn-back" onclick="goBack()" disabled>← Back</button>
+      <button class="btn-next" id="btn-next" onclick="goNext()">Next →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="results-header">
+      <div class="eyebrow">Your archetype revealed</div>
+      <h2 id="result-headline">You are...</h2>
+      <div class="blend-note" id="blend-note"></div>
+    </div>
+    <div id="result-cards"></div>
+
+    <div class="radar-section">
+      <div class="radar-eyebrow">Your full archetype spectrum — all 17 types</div>
+      <div class="radar-wrap">
+        <canvas id="radar-canvas" width="560" height="560"></canvas>
+      </div>
+      <div class="radar-legend" id="radar-legend"></div>
+    </div>
+
+    <div class="results-footer">
+      <button class="btn-retake" onclick="retake()">↺ Retake the quiz</button>
+      <div class="quote">"Every man is a clown, but only few have the courage to show it." — unknown</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CLOWNS = {
+  Whiteface: { label: "The Whiteface", era: "17th–19th century European circus", desc: "You carry yourself with authority and quiet elegance. The Whiteface is the oldest formal clown tradition — the straight man, the authority, the one who sets the stage for others to fail against. You have high standards, a love of structure, and a sharp sense of propriety. You don't chase laughs; you command the room and let chaos happen around you. Others may mistake your composure for coldness. It is simply precision." },
+  Mime: { label: "The Mime", era: "Ancient Greece to present", desc: "You speak loudest when silent. Rooted in Greek and Roman performance, the Mime communicates volumes through stillness, gesture, and precision. You are observant, deeply expressive in subtle ways, and intensely internal. You feel things profoundly but choose economy of expression. People say you 'say so much without saying anything at all.' Your silence is not absence — it is a language most people never learn." },
+  Pierrot: { label: "Pierrot", era: "Italian Renaissance / 17th-century France", desc: "You are the melancholy romantic — sensitive, idealistic, and perpetually longing. Pierrot emerged from the commedia dell'arte as the lovesick fool who never quite wins but never stops hoping. You feel deeply, love fully, and carry beauty in your sadness. Others underestimate you. You see the poetry in everything they miss, and that is your quiet advantage and your quiet wound." },
+  Grotesque: { label: "The Grotesque", era: "Medieval European carnival tradition", desc: "You revel in the uncomfortable and the absurd. Rooted in medieval carnival tradition, the Grotesque exists to challenge norms, disturb comfort, and reveal truth through ugliness. You are bold, transgressive, and unafraid of what others find repulsive. You believe confronting the grotesque is how societies process what they cannot otherwise face. Beauty, to you, is the less interesting half of reality." },
+  Harlequin: { label: "The Harlequin", era: "Italian Renaissance / Commedia dell'arte", desc: "You are clever, quick, and utterly unpredictable. The Harlequin is the nimble trickster of the commedia dell'arte — acrobatic, witty, mercurial, and magnetic. You think on your feet, shift with the wind, and find opportunity in chaos. Life is a game, and you play it better than most. Your patchwork costume was once stolen cloth from a dozen masters. You have always worn borrowed things beautifully." },
+  Auguste: { label: "The Auguste", era: "19th-century German circus", desc: "You are the lovable disaster — warm, chaotic, and irresistibly human. The Auguste emerged in 19th-century Germany as the bumbling foil to the Whiteface. You trip, you spill, you misunderstand everything — and people adore you for it. Your gift is vulnerability. You make others feel safe because you have no pretense. The pratfall is not failure. It is your most honest sentence." },
+  Contra: { label: "The Contra-Auguste", era: "19th–20th century circus", desc: "You are the enforcer, the rule-keeper, the one who tries to maintain order among beautiful chaos. The Contra-Auguste works in tension with the Auguste — half authority, half buffoon. You take yourself seriously even when no one else does. Your dignity in the face of absurdity is simultaneously the joke and the gift. You know the rules better than anyone, which is why you know exactly when they are broken." },
+  Jester: { label: "The Jester", era: "Medieval courts, 8th–17th century", desc: "You speak truth to power — and you make them laugh while doing it. The court Jester was one of history's most dangerous roles: the only one permitted to mock the king. You are sharp-tongued, politically astute, and morally courageous beneath your wit. You use humor as a scalpel. People laugh, then flinch, then think. That sequence is the whole point." },
+  Rodeo: { label: "The Rodeo Clown", era: "American West, 19th–20th century", desc: "You are brave, selfless, and built for the moment of crisis. The Rodeo Clown exists not primarily for laughs but to protect — drawing danger away from fallen riders at great personal risk. You are unshowy but indispensable. You run toward what others run from. Humor is your armor. Courage is your core. People will laugh at you for years and never fully understand what they owe you." },
+  Character: { label: "The Character Clown", era: "20th-century vaudeville and television", desc: "You are a fully realized persona — complete with backstory, quirks, and consistent internal logic. Character clowns like Emmett Kelly or Red Skelton were fully inhabited people, not just types. You have a rich inner life, a consistent worldview, and a character others find deeply familiar and comforting. You are not playing a role. You have become one, and the line between performance and self disappeared long ago." },
+  Bouffon: { label: "The Bouffon", era: "Medieval Europe / revived by Jacques Lecoq, 20th century", desc: "You are society's darkest mirror. The Bouffon tradition — revived by Jacques Lecoq — holds that the outcast, the grotesque, the scorned figure can expose the hypocrisy of the powerful with devastating effect. You are subversive, fearless, and deeply intelligent. You laugh loudest at the things most people are too afraid to name. You mock from the margins, and the margins are where all the real knowledge lives." },
+  Tramp: { label: "The Classic Tramp", era: "Depression-era America, early 20th century", desc: "You carry dignity in poverty and grace in suffering. Modeled on figures like Charlie Chaplin's 'Little Tramp,' this archetype finds beauty in nothing, clings to hope against logic, and endures. You are romantic, philosophical, resilient, and quietly noble. The world has not been kind to you, but you have never let it make you cruel. That restraint is your most remarkable achievement." },
+  BagLady: { label: "The Bag Lady", era: "20th-century American clowning", desc: "You are the keeper of everything others discard. The Bag Lady clown — often eccentric, heavily layered, muttering with wisdom — carries the world in overstuffed bags. You are a collector: of objects, memories, grudges, jokes, and lost things. There is a fierce dignity underneath the chaos, and a lifetime of stories in every pocket. What looks like clutter to others is your entire autobiography." },
+  Hobo: { label: "The Hobo", era: "Depression-era America", desc: "You are the free spirit with no fixed address. The Hobo clown — distinct from the Tramp — is cheerful, wandering, and at peace with having nothing. You have chosen freedom over comfort and experience over security. You find richness everywhere and attachment nowhere. People love your lightness but rarely understand your depth. The road has given you more than any house ever could." },
+  Trickster: { label: "The Trickster", era: "Ancient and cross-cultural — Coyote, Loki, Anansi, Hermes", desc: "You are one of humanity's oldest archetypes. Coyote, Loki, Anansi, Hermes — the Trickster exists in every mythology. You are the agent of chaos who is also the agent of change. Rules exist for you to test. Boundaries exist for you to cross. You disrupt, you transform, you disappear — and the world is different because you passed through it. You are not evil. You are necessary." },
+  Caring: { label: "The Caring Clown", era: "Late 20th century to present — hospital and therapeutic clowning", desc: "You bring light into the darkest rooms. The Caring Clown tradition — embodied by hospital clowns and therapeutic performers — uses humor as medicine and presence as healing. You are empathetic, attuned, and brave in the way that gentleness requires bravery. You believe joy is a form of service, and silliness is one of the most serious gifts you can give. You show up where others cannot go." },
+  Creepy: { label: "The Creepy Clown", era: "Late 20th century to present", desc: "You exist in the liminal space where laughter meets dread. The Creepy Clown emerged as a cultural archetype — the smile that doesn't reach the eyes, the joy that feels just slightly wrong. You are drawn to the uncanny, the ambiguous, the thing that unsettles. You understand that fear and fascination are closer than people admit, and you live in that gap. You are not the monster. You are the question the monster asks." }
+};
+
+const QUESTIONS = [
+  { text: "You arrive at a grand feast. The king is loudly and wrongly blaming a servant for spilling wine — everyone in the room saw it was the king's own elbow. What do you do?", options: [
+    { text: "Stay composed and say nothing. Power corrects itself eventually, if you're patient enough to outlast it.", tags: { Whiteface: 2, Contra: 2 } },
+    { text: "Without a word, recreate the moment so precisely that the room understands — and the king does too, eventually.", tags: { Mime: 3, Harlequin: 2 } },
+    { text: "Craft a 'spontaneous' joke that makes the king laugh at himself without knowing it.", tags: { Jester: 3, Bouffon: 2 } },
+    { text: "Make yourself the spectacle — loudly, messily, irresistibly — until the servant is forgotten and the room is yours.", tags: { Auguste: 3, Rodeo: 2 } }
+  ]},
+  { text: "A child at a circus is crying because they're frightened of the performers. You notice before anyone else does. Your instinct is to:", options: [
+    { text: "Move toward them gently, with patience and something small and tender, until the fear becomes curiosity.", tags: { Caring: 3, Pierrot: 2 } },
+    { text: "Bungle something so thoroughly that the child becomes the capable one — and forgets to be afraid.", tags: { Auguste: 3, Character: 2 } },
+    { text: "Linger at the edges of their awareness — close enough to be noticed, far enough not to intrude.", tags: { Mime: 2, Trickster: 2 } },
+    { text: "Put yourself squarely between the child and whatever frightened them, without thinking twice.", tags: { Rodeo: 3, Tramp: 2 } }
+  ]},
+  { text: "You find a wallet with a significant amount of cash, a credit card, and an ID. The owner looks like someone who could afford to lose it. You:", options: [
+    { text: "Return every penny. Integrity isn't situational.", tags: { Whiteface: 3, Caring: 2 } },
+    { text: "Return it — but slip one dollar into your own pocket for the 'finder's fee,' then feel guilty for a week.", tags: { Tramp: 3, Auguste: 2 } },
+    { text: "Return it, but engineer the reunion so it plays out as comedy for everyone present.", tags: { Harlequin: 3, Character: 2 } },
+    { text: "Use the credit card to buy something symbolic and leave a note explaining the philosophy of it.", tags: { Bouffon: 3, Trickster: 3 } }
+  ]},
+  { text: "In the commedia dell'arte tradition, every character wore a fixed mask. If you had to wear one mask forever, it would be:", options: [
+    { text: "Something quick and asymmetrical — the face of someone always three moves ahead.", tags: { Harlequin: 3, Trickster: 2 } },
+    { text: "No mask at all. The bare face is the only honest one.", tags: { Pierrot: 3, Caring: 2 } },
+    { text: "Something deliberately ugly — because discomfort is more truthful than beauty.", tags: { Grotesque: 3, Bouffon: 2 } },
+    { text: "Something neutral and still — a surface others can project onto, a face that gives nothing away.", tags: { Whiteface: 3, Mime: 2 } }
+  ]},
+  { text: "A medieval lord offers you a position as court jester. The catch: you must never speak a truth that makes the lord uncomfortable. You:", options: [
+    { text: "Accept — then spend years planting seeds of truth through fiction and metaphor.", tags: { Jester: 3, Harlequin: 2 } },
+    { text: "Decline. Comedy without courage is just flattery.", tags: { Bouffon: 3, Grotesque: 2 } },
+    { text: "Accept. It's a roof over your head and that's enough for now.", tags: { Hobo: 2, Tramp: 2, Auguste: 1 } },
+    { text: "Accept — then immediately violate the terms. Let them fire you for something real.", tags: { Trickster: 3, Creepy: 1 } }
+  ]},
+  { text: "You are performing in a hospital ward for seriously ill children. Halfway through, you realize your act isn't landing — the kids are politely enduring you. You:", options: [
+    { text: "Stop the act entirely. Sit on the floor and ask them what they actually want.", tags: { Caring: 3, Pierrot: 2 } },
+    { text: "Invert the power dynamic — let them catch you failing, correct you, teach you. Their laughter comes from authority, not pity.", tags: { Auguste: 3, Character: 2 } },
+    { text: "Continue with total commitment, performing as if for yourself. The absurdity eventually wins.", tags: { Mime: 2, Grotesque: 2, Whiteface: 1 } },
+    { text: "Abandon the script entirely and become something you've never tried, right now, on the spot.", tags: { Trickster: 3, Harlequin: 2 } }
+  ]},
+  { text: "Your deepest fear about yourself is:", options: [
+    { text: "That the joke will eventually wear thin and there will be nothing underneath it.", tags: { Auguste: 2, Harlequin: 2, Character: 2 } },
+    { text: "That no one will ever truly understand what you are trying to say.", tags: { Mime: 3, Pierrot: 3 } },
+    { text: "That you have crossed a line somewhere you cannot come back from.", tags: { Bouffon: 2, Creepy: 3 } },
+    { text: "That the world's suffering is too large and your comfort too small to matter.", tags: { Caring: 2, Tramp: 2, Rodeo: 2 } }
+  ]},
+  { text: "The Harlequin's diamond-patterned costume was originally a patchwork of stolen and borrowed cloth — a costume of survival. If your personality were a costume, it would be:", options: [
+    { text: "One deliberately chosen color, perfectly pressed. Consistent.", tags: { Whiteface: 3, Mime: 2 } },
+    { text: "Layers upon layers — adding and removing depending on who is watching.", tags: { BagLady: 2, Character: 2, Trickster: 2 } },
+    { text: "Patched, worn, beautiful in the way only used things can be.", tags: { Tramp: 3, Hobo: 2 } },
+    { text: "Whatever it needs to be in the moment. You carry it in your head, not on your body.", tags: { Harlequin: 3, Trickster: 2 } }
+  ]},
+  { text: "A clown becomes most powerful when:", options: [
+    { text: "They make you laugh at yourself before you realize what's happened.", tags: { Jester: 3, Bouffon: 2 } },
+    { text: "They make you feel, suddenly and unexpectedly, that you are not alone.", tags: { Caring: 3, Pierrot: 2, Tramp: 1 } },
+    { text: "They do something so unexpected that your entire frame of reference shifts.", tags: { Trickster: 3, Grotesque: 2 } },
+    { text: "They fail so spectacularly it releases everything tense you have been holding.", tags: { Auguste: 3, Character: 2 } }
+  ]},
+  { text: "You have been wandering for months with no fixed home. Right now, you feel:", options: [
+    { text: "Free. Everything you need is with you.", tags: { Hobo: 3, Trickster: 2 } },
+    { text: "Tired, but unwilling to admit how much you miss permanence.", tags: { Tramp: 3, Pierrot: 2 } },
+    { text: "Curious. Each new place is research.", tags: { Harlequin: 2, Character: 2, Mime: 1 } },
+    { text: "Purposeful. There are people who need what you bring, and you will find them.", tags: { Rodeo: 2, Caring: 3 } }
+  ]},
+  { text: "In times of political crisis, the role of the fool is:", options: [
+    { text: "To be the only one in the room permitted to say what everyone is thinking.", tags: { Jester: 3, Bouffon: 3 } },
+    { text: "To step between power and its victim, making themselves the target instead.", tags: { Rodeo: 3, Caring: 2 } },
+    { text: "To hold up a grotesque mirror until the room cannot look away.", tags: { Grotesque: 3, Bouffon: 2 } },
+    { text: "To disappear and survive — so someone is left when the crisis passes.", tags: { Hobo: 2, Trickster: 2, Tramp: 2 } }
+  ]},
+  { text: "The first clowns in recorded history were dwarf performers in ancient Egypt and jesters at the courts of China's Zhou dynasty (1046–256 BCE). What draws you to this ancient lineage?", options: [
+    { text: "The idea that humor has always been close to power — and that is a dangerous, necessary place to be.", tags: { Jester: 3, Bouffon: 2 } },
+    { text: "That even in the oldest civilizations, someone was needed to say the unsayable through absurdity.", tags: { Grotesque: 2, Trickster: 3 } },
+    { text: "That performance is how humans have always processed what they cannot otherwise bear.", tags: { Pierrot: 2, Caring: 2, Mime: 2 } },
+    { text: "That you would have found your place in any era. You belong to no single time.", tags: { Hobo: 2, Harlequin: 2, Whiteface: 1 } }
+  ]},
+  { text: "Someone accuses you of being 'just an entertainer.' You respond:", options: [
+    { text: "You don't argue. You let the silence sit until they hear what they said.", tags: { Mime: 3, Whiteface: 2 } },
+    { text: "With an elaborate demonstration that makes them feel the weight of what entertainment actually does.", tags: { Bouffon: 3, Jester: 2 } },
+    { text: "By immediately finding their most embarrassing truth and lovingly, publicly, reflecting it back.", tags: { Trickster: 3, Grotesque: 2 } },
+    { text: "Nothing. You don't argue about who you are. You already know.", tags: { Whiteface: 2, Character: 3 } }
+  ]},
+  { text: "A beloved performance tradition is being destroyed by modernization. You are asked to carry it forward. You:", options: [
+    { text: "Carry it exactly as given. The form is the meaning.", tags: { Whiteface: 3, Character: 2 } },
+    { text: "Strip it to its essence and rebuild it for this era — even if the purists object.", tags: { Trickster: 2, Harlequin: 2, Bouffon: 2 } },
+    { text: "Carry it publicly with exaggeration, so its absurdity illuminates what was always true.", tags: { Grotesque: 3, Mime: 1 } },
+    { text: "Refuse, and start something entirely new instead.", tags: { Hobo: 2, Trickster: 2, Creepy: 1 } }
+  ]},
+  { text: "Pierrot spent centuries pining for Columbine while Harlequin stole her away. Which position in that triangle do you recognize in yourself?", options: [
+    { text: "The one who loves too fully and loses gracefully — dignity intact, heart not quite.", tags: { Pierrot: 3, Tramp: 2 } },
+    { text: "The one who wins — not through worthiness, but through speed, timing, and irresistible charm.", tags: { Harlequin: 3, Trickster: 2 } },
+    { text: "None of them. You'd find a way to make all three look ridiculous and walk away unattached.", tags: { Bouffon: 3, Jester: 2 } },
+    { text: "The one everyone orbits without noticing — the still point around whom the whole drama turns.", tags: { Caring: 2, BagLady: 2, Mime: 1 } }
+  ]},
+  { text: "A clown's costume is found in a dumpster — old, stained, smelling of decades of performance. You:", options: [
+    { text: "Take it. It has more life in it than most new things you have seen.", tags: { Tramp: 3, BagLady: 3 } },
+    { text: "Leave it. But think about it for years.", tags: { Pierrot: 2, Mime: 2 } },
+    { text: "Take it as a prop in a piece about what discarded things remember.", tags: { Bouffon: 2, Grotesque: 3 } },
+    { text: "Take it, clean it meticulously, and wear it as a tribute.", tags: { Character: 3, Whiteface: 2 } }
+  ]},
+  { text: "The rodeo clown's job is to run toward a 2,000-pound bull to protect someone who has just been thrown. Thinking about your own life — when do you run toward danger?", options: [
+    { text: "When someone else would be hurt if you don't. No calculation required.", tags: { Rodeo: 3, Caring: 3 } },
+    { text: "When the danger is intellectual or moral — when someone needs truth and no one else will say it.", tags: { Jester: 3, Bouffon: 2 } },
+    { text: "When the risk itself is interesting. You are drawn to unstable situations.", tags: { Trickster: 3, Harlequin: 2 } },
+    { text: "Honestly? You are more likely to find an elegant escape route for everyone involved.", tags: { Hobo: 2, Mime: 1, Auguste: 2 } }
+  ]},
+  { text: "In your ideal world, an audience leaves your performance feeling:", options: [
+    { text: "Lighter than when they came in — as though something heavy was gently removed.", tags: { Auguste: 2, Caring: 3, Tramp: 2 } },
+    { text: "Disturbed in a productive way — like a blister. Slightly uncomfortable but pointing to something real.", tags: { Bouffon: 3, Grotesque: 3 } },
+    { text: "Seen. Like you looked directly at them in the dark.", tags: { Pierrot: 3, Mime: 2, Caring: 2 } },
+    { text: "Uncertain whether they just watched a comedy or a warning.", tags: { Creepy: 3, Trickster: 2 } }
+  ]},
+  { text: "Your sense of humor is closest to:", options: [
+    { text: "Dry and structural — the joke is architectural. You build it slowly and the laugh is the collapse.", tags: { Whiteface: 3, Jester: 2 } },
+    { text: "Embodied and chaotic — you trust the body to say what the brain can't, and the mess to mean something.", tags: { Auguste: 3, Mime: 2 } },
+    { text: "Dark and precise — you aim where it's tender, because that is where the truth lives.", tags: { Bouffon: 3, Grotesque: 2 } },
+    { text: "Warm and disarming — the goal is the other person feeling good, not the performance.", tags: { Caring: 3, Character: 2 } }
+  ]},
+  { text: "Jacques Lecoq's revival of the Bouffon asked performers to 'mock from the margins' — to attack power from the position of those society excludes. Does this resonate?", options: [
+    { text: "Completely. The person with nothing to lose speaks most freely.", tags: { Bouffon: 3, Jester: 2 } },
+    { text: "Partially — you want to challenge power, but from proximity, not exile.", tags: { Jester: 2, Harlequin: 2 } },
+    { text: "Not particularly — you would rather create something than critique something.", tags: { Character: 2, Caring: 2 } },
+    { text: "Yes, but you would go further. Mockery is not enough. You want to replace the whole thing.", tags: { Trickster: 3, Grotesque: 2 } }
+  ]},
+  { text: "Something genuinely frightening happens on stage in the middle of your performance. The crowd is unsettled. You:", options: [
+    { text: "Absorb it into the act. Make the fear part of what was always going to happen.", tags: { Creepy: 3, Trickster: 2 } },
+    { text: "Step fully out of character and handle it as a human. The performance can wait.", tags: { Caring: 3, Rodeo: 2 } },
+    { text: "Hold the space — steady, present, unruffled — until the crowd finds its footing.", tags: { Whiteface: 3, Mime: 2 } },
+    { text: "Turn yourself into the focus of their anxiety so the real fear seems to shrink by comparison.", tags: { Rodeo: 3, Auguste: 2, Grotesque: 1 } }
+  ]},
+  { text: "You are given one hour alone with no audience, no performance, and no role to play. You feel:", options: [
+    { text: "Relieved. Finally.", tags: { Mime: 3, Pierrot: 2 } },
+    { text: "Immediately restless. You need a witness to fully exist.", tags: { Auguste: 2, Character: 2, Harlequin: 2 } },
+    { text: "Like this is actually where your best work happens.", tags: { Bouffon: 2, Trickster: 2, Grotesque: 1 } },
+    { text: "Curious. What happens to a clown when no one is watching?", tags: { Creepy: 2, Whiteface: 2, Tramp: 2 } }
+  ]},
+  { text: "A tradition you love is being treated as a joke by people who don't understand it. You:", options: [
+    { text: "Explain it with the full weight of its history. Ignorance yields to information.", tags: { Whiteface: 2, Character: 3 } },
+    { text: "Let them laugh. They will come around when they need it.", tags: { Hobo: 3, Tramp: 2 } },
+    { text: "Create a performance that makes the ignorance itself the subject.", tags: { Bouffon: 3, Grotesque: 2 } },
+    { text: "Find the one person in the room who already understands it and perform only for them.", tags: { Pierrot: 3, Mime: 2 } }
+  ]},
+  { text: "The 'holy fool' appears in Russian Orthodoxy, Islamic Sufism, and Hindu wandering asceticism — the deliberately absurd figure who renounces social standing to access spiritual truth. Do you feel kinship with this figure?", options: [
+    { text: "Yes — the price of clarity is belonging nowhere.", tags: { Bouffon: 3, Trickster: 2, Hobo: 2 } },
+    { text: "Yes — but you want to bring people with you, not leave them behind.", tags: { Caring: 3, Jester: 2 } },
+    { text: "Partially — you respect the sacrifice but are too attached to beauty to fully release it.", tags: { Pierrot: 3, Tramp: 2 } },
+    { text: "No — you would rather work within the system. Chaos from inside is more effective.", tags: { Harlequin: 2, Contra: 3 } }
+  ]},
+  { text: "You discover your clown character has become genuinely frightening to people. Children cross the street. Adults look away. You:", options: [
+    { text: "Lean into it. Fear is information about what people are hiding from.", tags: { Creepy: 3, Bouffon: 2 } },
+    { text: "Retire the character. The point was never to frighten.", tags: { Caring: 3, Character: 2 } },
+    { text: "Investigate what changed. You need to understand before you can decide.", tags: { Mime: 2, Whiteface: 2, Grotesque: 2 } },
+    { text: "Find one person who is not afraid and perform just for them as your anchor.", tags: { Pierrot: 3, Tramp: 2 } }
+  ]},
+  { text: "Emmett Kelly's 'Weary Willie' character swept up a spotlight with a broom — trying to clean it away. What does that image mean to you?", options: [
+    { text: "The stubborn, beautiful persistence of trying to do what cannot be done.", tags: { Tramp: 3, Pierrot: 2 } },
+    { text: "The absurdity of labor — how much of what we do is just sweeping at light.", tags: { Bouffon: 2, Grotesque: 2, Contra: 2 } },
+    { text: "Tenderness — someone devoted to something even in front of a crowd.", tags: { Caring: 3, Character: 2 } },
+    { text: "A perfect image of the self — trying to contain what cannot be contained.", tags: { Auguste: 2, Trickster: 2, BagLady: 2 } }
+  ]},
+  { text: "If your life is a performance, who are you performing for?", options: [
+    { text: "The version of yourself you haven't become yet.", tags: { Pierrot: 2, Tramp: 2, Hobo: 2 } },
+    { text: "Everyone. The crowd is infinite and always watching.", tags: { Harlequin: 2, Auguste: 2, Character: 2 } },
+    { text: "Whoever needs it most in this specific moment.", tags: { Caring: 3, Rodeo: 2 } },
+    { text: "No one. The performance is the point; the audience is incidental.", tags: { Mime: 3, Whiteface: 2 } }
+  ]},
+  { text: "A moral test: you can expose a corrupt and powerful person — but doing so requires you to humiliate yourself publicly and irreparably. You:", options: [
+    { text: "Do it. The humiliation is the price and the price is worth it.", tags: { Jester: 3, Rodeo: 2, Bouffon: 2 } },
+    { text: "Find a way to expose them without humiliating yourself — it will take longer but you will get there.", tags: { Harlequin: 3, Jester: 2 } },
+    { text: "Walk away. You cannot fight every battle, and this one might destroy you.", tags: { Hobo: 2, Tramp: 2, Mime: 1 } },
+    { text: "Do it, and find the humiliation beautiful. To be truly low is to be truly free.", tags: { Bouffon: 3, Grotesque: 2, Creepy: 1 } }
+  ]},
+  { text: "Finally: a clown walks into a room and everyone laughs before they do anything at all. Why?", options: [
+    { text: "Because a clown carries the promise of beautiful disaster — and the room already loves them for it.", tags: { Auguste: 3, Character: 2 } },
+    { text: "Because the clown reminds them of something true about themselves they have been trying to forget.", tags: { Bouffon: 3, Jester: 2 } },
+    { text: "Because laughter is a reflex against what we cannot fully explain, and a clown is exactly that thing.", tags: { Creepy: 2, Trickster: 3 } },
+    { text: "Because joy is contagious, and a clown carries enough for the whole room.", tags: { Caring: 3, Auguste: 2 } }
+  ]}
+];
+
+const ACTS = ["Opening act","Rising action","The midpoint","Turning point","The climax","Final curtain call"];
+function getAct(i) { return ACTS[Math.floor((i/QUESTIONS.length)*ACTS.length)] || ACTS[ACTS.length-1]; }
+
+let current = 0;
+let answers = {};
+
+function start() {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const pct = Math.round((current / QUESTIONS.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = getAct(current);
+  document.getElementById('progress-count').textContent = (current+1) + ' / ' + QUESTIONS.length;
+  document.getElementById('q-label').textContent = 'Question ' + (current+1);
+
+  // Animate card
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = '';
+
+  document.getElementById('q-text').textContent = q.text;
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  q.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[current] === i ? ' selected' : '');
+    btn.textContent = o.text;
+    btn.onclick = () => selectOption(i);
+    opts.appendChild(btn);
+  });
+
+  document.getElementById('btn-back').disabled = current === 0;
+  const nextBtn = document.getElementById('btn-next');
+  if (current === QUESTIONS.length - 1) {
+    nextBtn.textContent = 'Reveal my archetype →';
+  } else {
+    nextBtn.textContent = 'Next →';
+  }
+  if (answers[current] !== undefined) {
+    nextBtn.classList.add('active');
+  } else {
+    nextBtn.classList.remove('active');
+  }
+}
+
+function selectOption(i) {
+  answers[current] = i;
+  document.querySelectorAll('.option').forEach((b, idx) => {
+    b.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('btn-next').classList.add('active');
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function goNext() {
+  if (answers[current] === undefined) return;
+  if (current === QUESTIONS.length - 1) { showResults(); return; }
+  current++;
+  renderQuestion();
+}
+
+function getScores() {
+  const scores = {};
+  Object.keys(CLOWNS).forEach(k => scores[k] = 0);
+  Object.keys(answers).forEach(qi => {
+    const optIdx = answers[qi];
+    const opt = QUESTIONS[qi].options[optIdx];
+    if (opt && opt.tags) {
+      Object.entries(opt.tags).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
+    }
+  });
+  return scores;
+}
+
+function showResults() {
+  const scores = getScores();
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const top = sorted.slice(0,3);
+  const maxScore = top[0][1] || 1;
+
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  const c1 = CLOWNS[top[0][0]];
+  const c2 = CLOWNS[top[1][0]];
+  const c3 = CLOWNS[top[2][0]];
+
+  document.getElementById('result-headline').innerHTML = 'You are <em>' + c1.label + '</em>';
+  document.getElementById('blend-note').textContent = 'With strands of ' + c2.label + ' and ' + c3.label;
+
+  const ranks = ['rank-1','rank-2','rank-3'];
+  const rankLabels = ['Primary archetype','Secondary archetype','Tertiary archetype'];
+  const cards = document.getElementById('result-cards');
+  cards.innerHTML = '';
+
+  top.forEach(([key, score], i) => {
+    const c = CLOWNS[key];
+    const pct = Math.round((score / maxScore) * 100);
+    const div = document.createElement('div');
+    div.className = 'result-card ' + ranks[i];
+    div.innerHTML = `
+      <div class="result-rank">${rankLabels[i]}</div>
+      <div class="result-name">${c.label}</div>
+      <div class="result-era">${c.era}</div>
+      <div class="result-desc">${c.desc}</div>
+      <div class="score-row">
+        <div class="score-track"><div class="score-fill" style="width:0%" data-pct="${pct}"></div></div>
+        <div class="score-pct">${pct}%</div>
+      </div>`;
+    cards.appendChild(div);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.score-fill').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  }, 100);
+
+  drawRadar(scores, top[0][0], top[1][0], top[2][0]);
+  buildLegend(sorted, top[0][0], top[1][0], top[2][0]);
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function drawRadar(scores, k1, k2, k3) {
+  const keys = Object.keys(CLOWNS);
+  const N = keys.length;
+  const canvas = document.getElementById('radar-canvas');
+  const size = Math.min(560, window.innerWidth - 80);
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const cx = size / 2, cy = size / 2;
+  const R = size * 0.36;
+  const labelR = size * 0.47;
+
+  const maxVal = Math.max(...Object.values(scores), 1);
+  const vals = keys.map(k => scores[k] / maxVal);
+
+  const angle = i => (Math.PI * 2 * i / N) - Math.PI / 2;
+  const pt = (i, r) => ({
+    x: cx + Math.cos(angle(i)) * r,
+    y: cy + Math.sin(angle(i)) * r
+  });
+
+  ctx.clearRect(0, 0, size, size);
+
+  // Grid rings
+  [0.25, 0.5, 0.75, 1].forEach(frac => {
+    ctx.beginPath();
+    keys.forEach((_, i) => {
+      const p = pt(i, R * frac);
+      i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+    });
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(180,160,130,0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Spokes
+  keys.forEach((_, i) => {
+    const p = pt(i, R);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(p.x, p.y);
+    ctx.strokeStyle = 'rgba(180,160,130,0.18)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Filled polygon
+  ctx.beginPath();
+  vals.forEach((v, i) => {
+    const p = pt(i, R * Math.max(v, 0.04));
+    i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,168,76,0.13)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(201,168,76,0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Dots — highlight top 3
+  const dotColors = { [k1]: '#C9A84C', [k2]: '#1D6B5C', [k3]: '#8B3A2E' };
+  vals.forEach((v, i) => {
+    const k = keys[i];
+    const p = pt(i, R * Math.max(v, 0.04));
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, dotColors[k] ? 5 : 3, 0, Math.PI * 2);
+    ctx.fillStyle = dotColors[k] || 'rgba(201,168,76,0.45)';
+    ctx.fill();
+  });
+
+  // Labels
+  const shortNames = {
+    Whiteface: 'Whiteface', Mime: 'Mime', Pierrot: 'Pierrot',
+    Grotesque: 'Grotesque', Harlequin: 'Harlequin', Auguste: 'Auguste',
+    Contra: 'Contra', Jester: 'Jester', Rodeo: 'Rodeo',
+    Character: 'Character', Bouffon: 'Bouffon', Tramp: 'Tramp',
+    BagLady: 'Bag Lady', Hobo: 'Hobo', Trickster: 'Trickster',
+    Caring: 'Caring', Creepy: 'Creepy'
+  };
+
+  ctx.font = `500 ${Math.round(size * 0.022)}px 'DM Sans', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  keys.forEach((k, i) => {
+    const p = pt(i, labelR);
+    const isTop = k === k1 || k === k2 || k === k3;
+    ctx.fillStyle = isTop ? '#2C1810' : '#8B7D6E';
+    ctx.font = `${isTop ? '600' : '400'} ${Math.round(size * 0.022)}px 'DM Sans', sans-serif`;
+    ctx.fillText(shortNames[k], p.x, p.y);
+  });
+}
+
+function buildLegend(sorted, k1, k2, k3) {
+  const legend = document.getElementById('radar-legend');
+  legend.innerHTML = '';
+  const topSet = { [k1]: 'top1', [k2]: 'top2', [k3]: 'top3' };
+  sorted.forEach(([key]) => {
+    const cls = topSet[key] || '';
+    const div = document.createElement('div');
+    div.className = 'legend-item ' + cls;
+    div.innerHTML = `<span class="legend-dot"></span><span>${CLOWNS[key].label}</span>`;
+    legend.appendChild(div);
+  });
+}
+
+function retake() {
+  answers = {};
+  current = 0;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('intro').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
